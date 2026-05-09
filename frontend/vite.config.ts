@@ -7,5 +7,19 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
+    assetsPublicPath: '/dsnake/',
+    cssCodeSplit: true,
+    sourcemap: false,
+    chunkSizeWarningLimit: 1500,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
   },
 })
