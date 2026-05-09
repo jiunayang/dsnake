@@ -17,7 +17,6 @@ const Home: React.FC = () => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    snakeApi.setMockMode(true);
     fetchSnakes();
   }, []);
 
