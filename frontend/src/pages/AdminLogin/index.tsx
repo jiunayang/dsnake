@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Typography, Card, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useAuthStore } from '../../store/auth';
@@ -8,7 +8,6 @@ const { Title, Link } = Typography;
 
 const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { login } = useAuthStore();
   const [loading, setLoading] = useState(false);
 
