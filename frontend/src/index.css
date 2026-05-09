@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
+
+:root {
+  --color-bg-primary: #0d1f17;
+  --color-bg-secondary: #1a2f23;
+  --color-bg-card: #243a2d;
+  --color-accent: #d4a853;
+  --color-accent-hover: #e6b964;
+  --color-danger: #c0392b;
+  --color-success: #27ae60;
+  --color-text: #f5f5f5;
+  --color-text-secondary: #a8b5a0;
+  --color-border: #2d4a35;
+  --font-sans: 'Noto Sans SC', 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --border-radius: 12px;
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 50%, var(--color-bg-primary) 100%);
+  color: var(--color-text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--color-accent);
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+.snake-card {
+  transition: all var(--transition-normal);
+}
+
+.snake-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 8px 24px rgba(212, 168, 83, 0.2) !important;
+}
+
+.ant-btn-primary {
+  background: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  color: var(--color-bg-primary) !important;
+  font-weight: 600;
+}
+
+.ant-btn-primary:hover {
+  background: var(--color-accent-hover) !important;
+  border-color: var(--color-accent-hover) !important;
+}
+
+.ant-btn-default {
+  background: var(--color-bg-secondary) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.ant-btn-default:hover {
+  border-color: var(--color-accent) !important;
+  color: var(--color-accent) !important;
+}
+
+.ant-input {
+  background: var(--color-bg-primary) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.ant-input::placeholder {
+  color: var(--color-text-secondary) !important;
+}
+
+.ant-input:hover,
+.ant-input:focus {
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 2px rgba(212, 168, 83, 0.1) !important;
+}
+
+.ant-radio-button-wrapper {
+  background: var(--color-bg-secondary) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-secondary) !important;
+}
+
+.ant-radio-button-wrapper:hover {
+  color: var(--color-accent) !important;
+}
+
+.ant-radio-button-wrapper-checked {
+  background: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  color: var(--color-bg-primary) !important;
+}
+
+.ant-table {
+  background: transparent !important;
+}
+
+.ant-table-thead > tr > th {
+  background: var(--color-bg-secondary) !important;
+  color: var(--color-accent) !important;
+  border-bottom: 1px solid var(--color-border) !important;
+}
+
+.ant-table-tbody > tr > td {
+  background: var(--color-bg-card) !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: var(--color-bg-secondary) !important;
+}
+
+.ant-pagination .ant-pagination-item {
+  background: var(--color-bg-secondary) !important;
+  border-color: var(--color-border) !important;
+}
+
+.ant-pagination .ant-pagination-item a {
+  color: var(--color-text) !important;
+}
+
+.ant-pagination .ant-pagination-item-active {
+  background: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  color: var(--color-bg-primary) !important;
+}
+
+.ant-modal-content {
+  background: var(--color-bg-secondary) !important;
+  border: 1px solid var(--color-border);
+}
+
+.ant-modal-header {
+  background: var(--color-bg-secondary) !important;
+  border-bottom: 1px solid var(--color-border) !important;
+}
+
+.ant-modal-title {
+  color: var(--color-accent) !important;
+  font-family: var(--font-serif);
+}
+
+.ant-modal-close-x {
+  color: var(--color-text-secondary) !important;
+}
+
+.ant-form-item-label > label {
+  color: var(--color-text) !important;
+}
+
+.ant-select-selector {
+  background: var(--color-bg-primary) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.ant-select-dropdown {
+  background: var(--color-bg-secondary) !important;
+}
+
+.ant-select-item {
+  color: var(--color-text) !important;
+}
+
+.ant-select-item-option-active {
+  background: var(--color-bg-card) !important;
+}
+
+.ant-select-item-option-selected {
+  background: var(--color-accent) !important;
+  color: var(--color-bg-primary) !important;
+}
+
+.ant-dropdown-menu {
+  background: var(--color-bg-secondary) !important;
+  border: 1px solid var(--color-border);
+}
+
+.ant-dropdown-menu-item {
+  color: var(--color-text) !important;
+}
+
+.ant-dropdown-menu-item:hover {
+  background: var(--color-bg-card) !important;
+}
+
+.ant-spin-dot-item {
+  background-color: var(--color-accent) !important;
+}
+
+.ant-empty-description {
+  color: var(--color-text-secondary) !important;
+}
+
+.ant-upload-select-picture-card {
+  background: var(--color-bg-primary) !important;
+  border-color: var(--color-border) !important;
+}
+
+.ant-upload:hover .ant-upload-select-picture-card {
+  border-color: var(--color-accent) !important;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --border-radius: 8px;
+  }
+}
