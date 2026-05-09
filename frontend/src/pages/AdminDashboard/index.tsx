@@ -173,7 +173,7 @@ const AdminDashboard: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
           <Button
             icon={<ArrowLeftOutlined />}
-            onClick={() => navigate('/dsnake')}
+            onClick={() => navigate('/')}
             style={{ background: '#1a2f23', borderColor: '#d4a853', color: '#f5f5f5' }}
           >
             返回首页
