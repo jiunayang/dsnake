@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   frontend:
     build:
@@ -6,8 +8,7 @@ services:
     ports:
       - "80:80"
     depends_on:
-      backend:
-        condition: service_started
+      - backend
     networks:
       - dsnake-network
 
@@ -23,8 +24,7 @@ services:
       - POSTGRES_PASSWORD=snakepass123
       - POSTGRES_DB=snakedb
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       - dsnake-network
 
