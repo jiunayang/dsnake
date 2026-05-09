@@ -18,8 +18,7 @@ const AdminLogin: React.FC = () => {
       const success = await login(values.username, values.password);
       if (success) {
         message.success('登录成功');
-        const from = (location.state as any)?.from?.pathname || '/dsnake/admin/dashboard';
-        navigate(from);
+        navigate('/admin/dashboard');
       } else {
         message.error('用户名或密码错误');
       }
@@ -137,7 +136,7 @@ const AdminLogin: React.FC = () => {
 
           <div style={{ textAlign: 'center' }}>
             <Link
-              onClick={() => navigate('/dsnake')}
+              onClick={() => navigate('/')}
               style={{ color: '#a8b5a0' }}
             >
               ← 返回网站首页

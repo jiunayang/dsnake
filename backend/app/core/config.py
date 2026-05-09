@@ -11,10 +11,11 @@ class Settings(BaseSettings):
     POSTGRES_USER: str = "snakeuser"
     POSTGRES_PASSWORD: str = "snakepass123"
     POSTGRES_DB: str = "snakedb"
+    POSTGRES_PORT: int = 5432
 
     @property
     def DATABASE_URL(self) -> str:
-        return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}/{self.POSTGRES_DB}"
+        return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
     SECRET_KEY: str = "your-secret-key-change-in-production-use-long-random-string"
     ALGORITHM: str = "HS256"

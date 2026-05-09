@@ -23,7 +23,7 @@ const AdminDashboard: React.FC = () => {
   useEffect(() => {
     checkAuth();
     if (!isAuthenticated) {
-      navigate('/dsnake/admin/login');
+      navigate('/admin/login');
     } else {
       fetchSnakes();
     }

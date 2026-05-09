@@ -18,7 +18,7 @@ const Header: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/dsnake');
+    navigate('/');
   };
 
   const userMenuItems = isAuthenticated
@@ -33,7 +33,7 @@ const Header: React.FC = () => {
           key: 'dashboard',
           icon: <DashboardOutlined />,
           label: '进入管理页面',
-          onClick: () => navigate('/dsnake/admin/dashboard'),
+          onClick: () => navigate('/admin/dashboard'),
         },
         { type: 'divider' as const },
         {
@@ -45,7 +45,7 @@ const Header: React.FC = () => {
       ]
     : [];
 
-  const isAdminPage = location.pathname.startsWith('/dsnake/admin');
+  const isAdminPage = location.pathname.includes('/admin');
 
   return (
     <AntHeader
@@ -61,7 +61,7 @@ const Header: React.FC = () => {
     >
       <div
         style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-        onClick={() => navigate('/dsnake')}
+        onClick={() => navigate('/')}
       >
         <span style={{ fontSize: '28px', marginRight: '8px' }}>🐍</span>
         <Text
@@ -102,7 +102,7 @@ const Header: React.FC = () => {
             <Button
               type="primary"
               icon={<LoginOutlined />}
-              onClick={() => navigate('/dsnake/admin/login')}
+              onClick={() => navigate('/admin/login')}
               style={{
                 background: '#d4a853',
                 borderColor: '#d4a853',
