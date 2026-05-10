@@ -316,9 +316,16 @@ python crawler.py
 
 ## 🗄️ 数据库迁移
 
-项目使用自定义迁移脚本管理数据库版本，支持增量升级。
+项目使用自动迁移机制，**服务启动时自动检测并执行待执行的迁移**，无需手动操作。
 
-### 迁移命令
+### 工作原理
+
+- 后端启动脚本 `start.py` 会自动检查数据库状态
+- 检测到未执行的迁移时，自动执行
+- 首次启动自动创建表结构和默认管理员
+- 后续代码更新后重新部署即可自动升级
+
+### 迁移命令（可选）
 
 ```bash
 cd backend
@@ -326,36 +333,26 @@ cd backend
 # 查看迁移状态
 python migrate.py status
 
-# 初始化数据库（首次部署）
-python migrate.py init
-
-# 执行升级（代码更新后）
+# 手动执行迁移（一般不需要）
 python migrate.py upgrade
-
-# 完整初始化（init + upgrade）
-python migrate.py full
 ```
 
-### 迁移流程
+### 升级流程
 
-1. **首次部署**：
-   ```bash
-   docker exec -it dsnake-backend-1 python migrate.py full
-   docker exec -it dsnake-backend-1 python crawler.py  # 可选：导入初始数据
-   ```
+只需重新部署后端，迁移自动执行：
 
-2. **代码更新后**：
-   ```bash
-   git pull
-   docker-compose up -d --build backend
-   docker exec -it dsnake-backend-1 python migrate.py upgrade
-   ```
+```bash
+git pull
+docker-compose up -d --build backend
+# 迁移自动执行，日志中可见 [MIGRATION] 信息
+```
 
 ### 添加新迁移
 
-未来代码更新如需数据库变更，添加新迁移文件（如 `0005_new_feature.py`）并更新 `migrate.py` 中的迁移列表。
+未来代码更新如需数据库变更：
 
----
+1. 在 `backend/start.py` 的 `all_migrations` 列表中添加新迁移
+2. 重新部署即可自动执行
 
 ## ⚙️ 配置说明
 
