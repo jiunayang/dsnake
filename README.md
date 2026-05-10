@@ -308,9 +308,52 @@ python crawler.py
    - 正文描述内容
    - 性格/习性信息
    - 毒性分类
-   - 页面图片并下载转为Base64
+   - 图片URL
 3. 自动补充咬伤处理方法
 4. 保存到数据库
+
+---
+
+## 🗄️ 数据库迁移
+
+项目使用自定义迁移脚本管理数据库版本，支持增量升级。
+
+### 迁移命令
+
+```bash
+cd backend
+
+# 查看迁移状态
+python migrate.py status
+
+# 初始化数据库（首次部署）
+python migrate.py init
+
+# 执行升级（代码更新后）
+python migrate.py upgrade
+
+# 完整初始化（init + upgrade）
+python migrate.py full
+```
+
+### 迁移流程
+
+1. **首次部署**：
+   ```bash
+   docker exec -it dsnake-backend-1 python migrate.py full
+   docker exec -it dsnake-backend-1 python crawler.py  # 可选：导入初始数据
+   ```
+
+2. **代码更新后**：
+   ```bash
+   git pull
+   docker-compose up -d --build backend
+   docker exec -it dsnake-backend-1 python migrate.py upgrade
+   ```
+
+### 添加新迁移
+
+未来代码更新如需数据库变更，添加新迁移文件（如 `0005_new_feature.py`）并更新 `migrate.py` 中的迁移列表。
 
 ---
 

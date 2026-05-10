@@ -11,3 +11,4 @@ slowapi==0.1.9
 python-multipart==0.0.6
 requests==2.31.0
 beautifulsoup4==4.12.2
+alembic==1.13.1
