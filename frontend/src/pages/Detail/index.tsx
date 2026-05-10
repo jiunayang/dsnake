@@ -13,24 +13,37 @@ const Detail: React.FC = () => {
   const navigate = useNavigate();
   const [snake, setSnake] = useState<SnakeDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
       fetchSnake(parseInt(id));
+    } else {
+      setError('无效的蛇类ID');
+      setLoading(false);
     }
   }, [id]);
 
   const fetchSnake = async (snakeId: number) => {
     setLoading(true);
+    setError(null);
     try {
+      console.log('Fetching snake:', snakeId);
       const data = await snakeApi.getSnake(snakeId);
+      console.log('Snake data:', data);
       setSnake(data);
-    } catch (error) {
-      message.error('获取蛇类信息失败');
-      navigate('/dsnake');
+    } catch (err: any) {
+      console.error('Failed to fetch snake:', err);
+      const errorMsg = err?.response?.data?.detail || '获取蛇类信息失败，请检查网络连接';
+      setError(errorMsg);
+      message.error(errorMsg);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleBack = () => {
+    navigate('/');
   };
 
   if (loading) {
@@ -49,8 +62,41 @@ const Detail: React.FC = () => {
     );
   }
 
-  if (!snake) {
-    return null;
+  if (error || !snake) {
+    return (
+      <div
+        style={{
+          minHeight: '100vh',
+          background: 'linear-gradient(180deg, #0d1f17 0%, #1a2f23 50%, #0d1f17 100%)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '24px',
+        }}
+      >
+        <div
+          style={{
+            background: 'rgba(26, 47, 35, 0.9)',
+            borderRadius: '12px',
+            padding: '32px',
+            textAlign: 'center',
+            maxWidth: '400px',
+          }}
+        >
+          <Title level={4} style={{ color: '#d4a853', marginBottom: '16px' }}>
+            {error || '蛇类信息不存在'}
+          </Title>
+          <Button
+            type="primary"
+            onClick={handleBack}
+            style={{ background: '#d4a853', borderColor: '#d4a853' }}
+          >
+            返回首页
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -64,7 +110,7 @@ const Detail: React.FC = () => {
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
         <Button
           icon={<ArrowLeftOutlined />}
-          onClick={() => navigate('/dsnake')}
+          onClick={handleBack}
           style={{
             marginBottom: '24px',
             background: '#1a2f23',
@@ -104,6 +150,9 @@ const Detail: React.FC = () => {
                     src={snake.image}
                     alt={snake.name}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
                   />
                 ) : (
                   <span style={{ fontSize: '96px' }}>🐍</span>
