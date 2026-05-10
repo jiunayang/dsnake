@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Table, Modal, Form, Input, Upload, Switch, message, Popconfirm, Typography, Space, Image } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, ArrowLeftOutlined, LinkOutlined } from '@ant-design/icons';
 import { snakeApi } from '../../services/api';
 import type { SnakeListItem, SnakeFormData } from '../../services/api';
 import { useAuthStore } from '../../store/auth';
@@ -19,6 +19,7 @@ const AdminDashboard: React.FC = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [form] = Form.useForm();
   const [imageUrl, setImageUrl] = useState<string>('');
+  const [imageInputMode, setImageInputMode] = useState<'upload' | 'url'>('upload');
 
   useEffect(() => {
     checkAuth();
@@ -45,6 +46,7 @@ const AdminDashboard: React.FC = () => {
     setEditingId(null);
     form.resetFields();
     setImageUrl('');
+    setImageInputMode('upload');
     setModalVisible(true);
   };
 
@@ -59,7 +61,18 @@ const AdminDashboard: React.FC = () => {
         treatment: data.treatment,
         is_venomous: data.is_venomous,
       });
-      setImageUrl(data.image || '');
+      if (data.image) {
+        if (data.image.startsWith('data:') || data.image.startsWith('http')) {
+          setImageUrl(data.image);
+          setImageInputMode('url');
+        } else {
+          setImageUrl(data.image);
+          setImageInputMode('url');
+        }
+      } else {
+        setImageUrl('');
+        setImageInputMode('upload');
+      }
       setModalVisible(true);
     });
   };
@@ -105,6 +118,10 @@ const AdminDashboard: React.FC = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleImageUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImageUrl(e.target.value);
   };
 
   const columns = [
@@ -277,22 +294,73 @@ const AdminDashboard: React.FC = () => {
               </Form.Item>
 
               <Form.Item label={<span style={{ color: '#f5f5f5' }}>图片</span>}>
-                <Upload
-                  name="avatar"
-                  listType="picture-card"
-                  showUploadList={false}
-                  beforeUpload={() => false}
-                  onChange={handleImageChange}
-                >
-                  {imageUrl ? (
-                    <img src={imageUrl} alt="snake" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <Space direction="vertical" style={{ width: '100%' }}>
+                  <Space>
+                    <Button
+                      type={imageInputMode === 'upload' ? 'primary' : 'default'}
+                      onClick={() => setImageInputMode('upload')}
+                      size="small"
+                    >
+                      上传图片
+                    </Button>
+                    <Button
+                      type={imageInputMode === 'url' ? 'primary' : 'default'}
+                      onClick={() => setImageInputMode('url')}
+                      size="small"
+                      icon={<LinkOutlined />}
+                    >
+                      图片链接
+                    </Button>
+                  </Space>
+
+                  {imageInputMode === 'upload' ? (
+                    <Upload
+                      name="avatar"
+                      listType="picture-card"
+                      showUploadList={false}
+                      beforeUpload={() => false}
+                      onChange={handleImageChange}
+                    >
+                      {imageUrl ? (
+                        <div style={{ position: 'relative' }}>
+                          <img src={imageUrl} alt="snake" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <Button
+                            size="small"
+                            danger
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setImageUrl('');
+                            }}
+                            style={{ position: 'absolute', top: 0, right: 0 }}
+                          >
+                            删除
+                          </Button>
+                        </div>
+                      ) : (
+                        <div>
+                          <PlusOutlined />
+                          <div style={{ marginTop: 8 }}>上传图片</div>
+                        </div>
+                      )}
+                    </Upload>
                   ) : (
-                    <div>
-                      <PlusOutlined />
-                      <div style={{ marginTop: 8 }}>上传图片</div>
+                    <Input
+                      placeholder="请输入图片URL，如: https://example.com/snake.jpg"
+                      prefix={<LinkOutlined />}
+                      value={imageUrl}
+                      onChange={handleImageUrlChange}
+                    />
+                  )}
+
+                  {imageUrl && (
+                    <div style={{ marginTop: 8 }}>
+                      <Text style={{ color: '#a8b5a0', fontSize: 12 }}>预览:</Text>
+                      <div style={{ marginTop: 4, maxWidth: 150 }}>
+                        <img src={imageUrl} alt="预览" style={{ width: '100%', borderRadius: 8 }} />
+                      </div>
                     </div>
                   )}
-                </Upload>
+                </Space>
               </Form.Item>
 
               <Form.Item style={{ marginBottom: 0 }}>
